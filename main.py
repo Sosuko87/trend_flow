@@ -38,7 +38,7 @@ project_token = token_res.get("project_token", "")
 json_url = f"https://projects.scratch.mit.edu/{project_id}?token={project_token}"
 project_json = requests.get(json_url, headers=headers).json()
 
-target_sprite_name = "sprite1"
+target_sprite_name = "Sprite1"
 
 # 7. JSON構造（"declaration"がある形）に合わせて書き換え
 for target in project_json["targets"]:
