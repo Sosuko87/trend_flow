@@ -22,13 +22,12 @@ with open("temp_costume.png", "wb") as f:
     f.write(image_data)
 
 # 4. 画像のMD5ハッシュ値を計算
-md5_hash = hashlib.md5(image_data).hexdigest()
-asset_id = md5_hash
+asset_id = session.upload_asset(file_path="temp_costume.png")
 md5ext = f"{asset_id}.png"
 
 # 5. 【修正箇所】ファイルを指定してScratchサーバーにアップロード
 # 引数を filename に変更し、不要になった data_format は消去します
-session.upload_asset(filename="temp_costume.png", asset_id=asset_id)
+session.upload_asset(file_path="temp_costume.png")
 
 # 6. プロジェクトオブジェクトを接続し、現在のJSONを取得
 project = session.connect_project(project_id)
