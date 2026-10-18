@@ -3,7 +3,7 @@ import requests
 import hashlib
 import os
 
-usename = os.environ.get("SCRATCH_USERNAME")
+username = os.environ.get("SCRATCH_USERNAME")
 password = os.environ.get("SCRATCH_PASSWORD")
 
 # 1. Scratchにログインしてセッションを作成
