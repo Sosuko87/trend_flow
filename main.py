@@ -29,9 +29,10 @@ md5ext = f"{asset_id}.png"
 # 5. Scratchサーバーに画像をアップロード
 session.upload_asset("temp_costume.png")
 
-# 6. プロジェクトオブジェクトを接続し、現在のJSONを取得（修正箇所）
+# 6. プロジェクトオブジェクトを接続し、Scratch APIから直接JSONを取得（修正箇所）
 project = session.connect_project(project_id)
-project_json = project.get_raw_json()
+json_response = requests.get(f"https://projects.scratch.mit.edu/{project_id}")
+project_json = json_response.json()
 
 target_sprite_name = "sprite1"
 
@@ -50,7 +51,7 @@ for target in project_json["targets"]:
             target["costumes"][0]["path"] = f"files/{md5ext}"
         break
 
-# 8. 更新したJSONを保存
+# 8. 更新したJSONをScratchに保存
 project.set_json(project_json)
 
 print("プロジェクトのJSONの変更と保存が成功しました！")
