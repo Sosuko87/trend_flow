@@ -26,12 +26,12 @@ md5_hash = hashlib.md5(image_data).hexdigest()
 asset_id = md5_hash
 md5ext = f"{asset_id}.png"
 
-# 5. 位置引数（キーワード引数名なし）でScratchサーバーにアップロード
+# 5. Scratchサーバーに画像をアップロード
 session.upload_asset("temp_costume.png")
 
-# 6. プロジェクトオブジェクトを接続し、現在のJSONを取得
+# 6. プロジェクトオブジェクトを接続し、現在のJSONを取得（修正箇所）
 project = session.connect_project(project_id)
-project_json = project.json()
+project_json = project.get_raw_json()
 
 target_sprite_name = "sprite1"
 
@@ -50,6 +50,7 @@ for target in project_json["targets"]:
             target["costumes"][0]["path"] = f"files/{md5ext}"
         break
 
+# 8. 更新したJSONを保存
 project.set_json(project_json)
 
 print("プロジェクトのJSONの変更と保存が成功しました！")
