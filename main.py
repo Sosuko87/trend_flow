@@ -22,12 +22,12 @@ def image_change(url)
     with open("temp_costume.png", "wb") as f:
         f.write(image_data)
 
-# 4. 画像のMD5ハッシュ値を計算
+    # 4. 画像のMD5ハッシュ値を計算
     md5_hash = hashlib.md5(image_data).hexdigest()
     asset_id = md5_hash
     md5ext = f"{asset_id}.png"
 
-# 5. Scratchサーバーに画像をアップロード
+    # 5. Scratchサーバーに画像をアップロード
     session.upload_asset("temp_costume.png")
 
     # 6. Scratch API から project_token を取得して JSON をダウンロード
@@ -66,3 +66,4 @@ def image_change(url)
     project.set_json(project_json)
 
     print(f"画像{url}の更新に成功しました")
+image_change(https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png)
