@@ -24,10 +24,8 @@ jobs:
           pip install scratchattach
 
       - name: Run script
-        run: python main.py
-        
-      - name: Run 2nd script
         env:
           SCRATCH_PASSWORD: ${{ secrets.SCRATCH_PASSWORD }}
           SCRATCH_USERNAME: ${{ secrets.SCRATCH_USERNAME }}
-        run: python next.py
+        run: python main.py
+        
