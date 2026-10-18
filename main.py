@@ -29,10 +29,14 @@ md5ext = f"{asset_id}.png"
 # 5. Scratchサーバーに画像をアップロード
 session.upload_asset("temp_costume.png")
 
-# 6. プロジェクトオブジェクトを接続し、Scratch APIから直接JSONを取得（修正箇所）
-project = session.connect_project(project_id)
-json_response = requests.get(f"https://projects.scratch.mit.edu/{project_id}")
-project_json = json_response.json()
+# 6. Scratch API から project_token を取得して JSON を安全にダウンロード（修正箇所）
+headers = {"User-Agent": "Mozilla/5.0"}
+token_res = requests.get(f"https://api.scratch.mit.edu/projects/{project_id}", headers=headers).json()
+project_token = token_res.get("project_token", "")
+
+# token 付き URL から JSON データを取得
+json_url = f"https://projects.scratch.mit.edu/{project_id}?token={project_token}"
+project_json = requests.get(json_url, headers=headers).json()
 
 target_sprite_name = "sprite1"
 
@@ -52,6 +56,7 @@ for target in project_json["targets"]:
         break
 
 # 8. 更新したJSONをScratchに保存
+project = session.connect_project(project_id)
 project.set_json(project_json)
 
 print("プロジェクトのJSONの変更と保存が成功しました！")
