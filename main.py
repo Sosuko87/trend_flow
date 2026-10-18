@@ -12,18 +12,23 @@ session = sa.login(username, password)
 
 project_id = "ここにプロジェクトID"
 
-# 3. 変更したい画像のURLからデータを取得
+# 3. 変更したい画像のURLからデータを取得して、一時ファイルとして保存
 image_url = "https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png"
 response = requests.get(image_url)
 image_data = response.content
+
+# 一度 "temp_costume.png" という名前でローカルに保存する
+with open("temp_costume.png", "wb") as f:
+    f.write(image_data)
 
 # 4. 画像のMD5ハッシュ値を計算
 md5_hash = hashlib.md5(image_data).hexdigest()
 asset_id = md5_hash
 md5ext = f"{asset_id}.png"
 
-# 5. 画像をScratchのサーバーにアップロード
-session.upload_asset(image_data, asset_id=asset_id, data_format="png")
+# 5. 【修正箇所】ファイルを指定してScratchサーバーにアップロード
+# 引数を filename に変更し、不要になった data_format は消去します
+session.upload_asset(filename="temp_costume.png", asset_id=asset_id)
 
 # 6. プロジェクトオブジェクトを接続し、現在のJSONを取得
 project = session.connect_project(project_id)
