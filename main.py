@@ -22,38 +22,34 @@ with open("temp_costume.png", "wb") as f:
     f.write(image_data)
 
 # 4. 画像のMD5ハッシュ値を計算
-asset_id = session.upload_asset(file_path="temp_costume.png")
+md5_hash = hashlib.md5(image_data).hexdigest()
+asset_id = md5_hash
 md5ext = f"{asset_id}.png"
 
-# 5. 【修正箇所】ファイルを指定してScratchサーバーにアップロード
-# 引数を filename に変更し、不要になった data_format は消去します
-session.upload_asset(file_path="temp_costume.png")
+# 5. 位置引数（キーワード引数名なし）でScratchサーバーにアップロード
+session.upload_asset("temp_costume.png")
 
 # 6. プロジェクトオブジェクトを接続し、現在のJSONを取得
 project = session.connect_project(project_id)
-project_json = project.json() # または sa.get_project_json(project_id)
+project_json = project.json()
 
 target_sprite_name = "sprite1"
 
-# 7. あなたのJSON構造（"declaration"がある形）に合わせてピンポイントで書き換え
+# 7. JSON構造（"declaration"がある形）に合わせて書き換え
 for target in project_json["targets"]:
     if target["name"] == target_sprite_name:
-        # あなたが提示してくれた "declaration" の中身を書き換える
         costume_decl = target["costumes"][0]["declaration"]
         
         costume_decl["assetId"] = asset_id
         costume_decl["md5ext"] = md5ext
         costume_decl["dataFormat"] = "png"
         
-        # もし下部にあった "declaredPath" や "path" も同じターゲット内にあるなら書き換え
         if "declaredPath" in target["costumes"][0]:
             target["costumes"][0]["declaredPath"] = md5ext
         if "path" in target["costumes"][0]:
             target["costumes"][0]["path"] = f"files/{md5ext}"
         break
 
-# 8. ❌ upload_project_json ではなく、⭕ project.set_json を使う
-# これでトークン問題も自動で解決し、保存されます！
 project.set_json(project_json)
 
 print("プロジェクトのJSONの変更と保存が成功しました！")
