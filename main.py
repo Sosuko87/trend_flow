@@ -12,6 +12,7 @@ session = sa.login(username, password)
 project_id = "1392785288"
 project = session.connect_project(project_id)
 
+
 def image_change(url):
 
     # 3. 変更したい画像のURLからデータを取得して、一時ファイルとして保存
