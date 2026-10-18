@@ -29,30 +29,36 @@ md5ext = f"{asset_id}.png"
 # 5. Scratchサーバーに画像をアップロード
 session.upload_asset("temp_costume.png")
 
-# 6. Scratch API から project_token を取得して JSON を安全にダウンロード（修正箇所）
+# 6. Scratch API から project_token を取得して JSON をダウンロード
 headers = {"User-Agent": "Mozilla/5.0"}
 token_res = requests.get(f"https://api.scratch.mit.edu/projects/{project_id}", headers=headers).json()
 project_token = token_res.get("project_token", "")
 
-# token 付き URL から JSON データを取得
 json_url = f"https://projects.scratch.mit.edu/{project_id}?token={project_token}"
 project_json = requests.get(json_url, headers=headers).json()
 
 target_sprite_name = "Sprite1"
 
-# 7. JSON構造（"declaration"がある形）に合わせて書き換え
+# 7. コスチューム情報の書き換え（KeyError対策）
 for target in project_json["targets"]:
     if target["name"] == target_sprite_name:
-        costume_decl = target["costumes"][0]["declaration"]
+        costume = target["costumes"][0]
         
-        costume_decl["assetId"] = asset_id
-        costume_decl["md5ext"] = md5ext
-        costume_decl["dataFormat"] = "png"
+        # Scratch 3.0 の標準構造（直下のプロパティ）を更新
+        costume["assetId"] = asset_id
+        costume["md5ext"] = md5ext
+        costume["dataFormat"] = "png"
         
-        if "declaredPath" in target["costumes"][0]:
-            target["costumes"][0]["declaredPath"] = md5ext
-        if "path" in target["costumes"][0]:
-            target["costumes"][0]["path"] = f"files/{md5ext}"
+        # もし 'declaration' キーが存在している場合のみ更新
+        if "declaration" in costume:
+            costume["declaration"]["assetId"] = asset_id
+            costume["declaration"]["md5ext"] = md5ext
+            costume["declaration"]["dataFormat"] = "png"
+            
+        if "declaredPath" in costume:
+            costume["declaredPath"] = md5ext
+        if "path" in costume:
+            costume["path"] = f"files/{md5ext}"
         break
 
 # 8. 更新したJSONをScratchに保存
