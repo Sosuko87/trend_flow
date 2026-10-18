@@ -9,7 +9,8 @@ password = os.environ.get("SCRATCH_PASSWORD")
 
 # 2. 正しくログインしてセッションを作成
 session = sa.login(username, password)
-project = session.connect_project("1392785288")
+project_id = "1392785288"
+project = session.connect_project(project_id)
 
 def image_change(url):
 
