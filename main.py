@@ -1,48 +1,55 @@
-import scratchattach as scratch3
+import os
 import requests
 import hashlib
-import os
+import scratchattach as sa
 
+# 1. GitHub Secrets からログイン情報を取得
 username = os.environ.get("SCRATCH_USERNAME")
 password = os.environ.get("SCRATCH_PASSWORD")
 
-# 1. Scratchにログインしてセッションを作成
-session = scratch3.login(username, password)
+# 2. 正しくログインしてセッションを作成
+session = sa.login(username, password)
 
-project_id = "1392785288"
-project_token = session.get_project_token(project_id)
+project_id = "ここにプロジェクトID"
 
-# 2. 変更したい画像のURLからデータを取得
+# 3. 変更したい画像のURLからデータを取得
 image_url = "https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png"
 response = requests.get(image_url)
 image_data = response.content
 
-# 3. 画像のMD5ハッシュ値を計算
+# 4. 画像のMD5ハッシュ値を計算
 md5_hash = hashlib.md5(image_data).hexdigest()
 asset_id = md5_hash
-# Scratch上でのファイル名（例: abcde12345...png）
 md5ext = f"{asset_id}.png"
 
-# 4. 画像（アセット）をScratchのサーバーにアップロード
-# ※これによりScratch側で画像が認識されます
+# 5. 画像をScratchのサーバーにアップロード
 session.upload_asset(image_data, asset_id=asset_id, data_format="png")
 
-# 5. プロジェクトのJSONを取得して書き換え
-project_json = scratch3.get_project_json(project_id)
+# 6. プロジェクトオブジェクトを接続し、現在のJSONを取得
+project = session.connect_project(project_id)
+project_json = project.json() # または sa.get_project_json(project_id)
 
-target_sprite_name = "sprite1"
+target_sprite_name = "変更したいスプライトの名前"
 
-# 対象のスプライト（またはステージ）を探す
+# 7. あなたのJSON構造（"declaration"がある形）に合わせてピンポイントで書き換え
 for target in project_json["targets"]:
     if target["name"] == target_sprite_name:
-        # 1つ目のコスチューム（インデックス0）の情報を書き換える
-        first_costume = target["costumes"][0]
-        first_costume["assetId"] = asset_id
-        first_costume["md5ext"] = md5ext
-        first_costume["dataFormat"] = "png"
+        # あなたが提示してくれた "declaration" の中身を書き換える
+        costume_decl = target["costumes"][0]["declaration"]
+        
+        costume_decl["assetId"] = asset_id
+        costume_decl["md5ext"] = md5ext
+        costume_decl["dataFormat"] = "png"
+        
+        # もし下部にあった "declaredPath" や "path" も同じターゲット内にあるなら書き換え
+        if "declaredPath" in target["costumes"][0]:
+            target["costumes"][0]["declaredPath"] = md5ext
+        if "path" in target["costumes"][0]:
+            target["costumes"][0]["path"] = f"files/{md5ext}"
         break
 
-# 6. 変更したJSONをプロジェクトにアップロードして保存
-session.upload_project_json(project_id, project_json, project_token=project_token)
+# 8. ❌ upload_project_json ではなく、⭕ project.set_json を使う
+# これでトークン問題も自動で解決し、保存されます！
+project.set_json(project_json)
 
-print("終了")
+print("プロジェクトのJSONの変更と保存が成功しました！")
