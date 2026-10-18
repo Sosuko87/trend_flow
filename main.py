@@ -68,4 +68,5 @@ def image_change(url):
     project.set_json(project_json)
 
     print(f"画像{url}の更新に成功しました")
+
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
