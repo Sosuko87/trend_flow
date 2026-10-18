@@ -2,8 +2,12 @@ import scratchattach as scratch3
 import requests
 import hashlib
 import os
+
+USERNAME = os.environ.get("SCRATCH_USERNAME")
+PASSWORD = os.environ.get("SCRATCH_PASSWORD")
+
 # 1. Scratchにログインしてセッションを作成
-session = scratch3.login("あなたのユーザー名", "あなたのパスワード")
+session = scratch3.login(USERNAME, PASSWORD)
 
 project_id = "1392785288"
 project_token = session.get_project_token(project_id)
