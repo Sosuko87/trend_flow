@@ -11,7 +11,7 @@ password = os.environ.get("SCRATCH_PASSWORD")
 session = sa.login(username, password)
 project = session.connect_project("1392785288")
 
-def image_change(url)
+def image_change(url):
 
     # 3. 変更したい画像のURLからデータを取得して、一時ファイルとして保存
     image_url = url
