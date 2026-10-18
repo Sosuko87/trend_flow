@@ -10,7 +10,7 @@ password = os.environ.get("SCRATCH_PASSWORD")
 # 2. 正しくログインしてセッションを作成
 session = sa.login(username, password)
 
-project_id = "ここにプロジェクトID"
+project_id = 1392785288"
 
 # 3. 変更したい画像のURLからデータを取得して、一時ファイルとして保存
 image_url = "https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png"
@@ -34,7 +34,7 @@ session.upload_asset(filename="temp_costume.png", asset_id=asset_id)
 project = session.connect_project(project_id)
 project_json = project.json() # または sa.get_project_json(project_id)
 
-target_sprite_name = "変更したいスプライトの名前"
+target_sprite_name = "sprite1"
 
 # 7. あなたのJSON構造（"declaration"がある形）に合わせてピンポイントで書き換え
 for target in project_json["targets"]:
