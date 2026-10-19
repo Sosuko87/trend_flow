@@ -79,9 +79,10 @@ while True:
         
     for c in comments:
         text = getattr(c, "content", "") or (c.get("content", "") if isinstance(c, dict) else str(c))
-        comment_result = text[5:]
-        with open("id.txt", "a", encoding="utf-8") as f:
-            f.write(comment_result + "\n")
-        print(comment_result)
+        if text.startswith("【仮応募】"):
+            comment_result = text[5:]
+            with open("id.txt", "a", encoding="utf-8") as f:
+                f.write(comment_result + "\n")
+            print(f"ユーザー: {c.author_name} | ID: {c.id} | 内容: {comment_result}")
     offset += 40
 
