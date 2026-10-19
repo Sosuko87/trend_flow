@@ -70,14 +70,20 @@ def image_change(url):
     print(f"画像{url}の更新に成功しました")
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
 
+offset = 0
+
 while True:
-    #コメントを入手
-    comments = sec_project.comments(limit = 40)
+    comments = sec_project.comments(limit=40, offset=offset)
     if not comments:
         break
-    comment = "0"
-    for comments in comment:
-        comment_result = comment[5:]
+        
+    for c in comments:
+        text = getattr(c, "content", "") or (c.get("content", "") if isinstance(c, dict) else str(c))
+        
+        comment_result = text[5:]
+        
         with open("id.txt", "a", encoding="utf-8") as f:
-            f.write(comment_result)
+            f.write(comment_result + "\n")
         print(comment_result)
+        
+    offset += 40
