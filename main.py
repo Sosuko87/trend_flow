@@ -83,6 +83,8 @@ while True:
             comment_result = text[5:]
             with open("id.txt", "a", encoding="utf-8") as f:
                 f.write(comment_result + "\n")
-            print(f"ユーザー: {c.author_name} | ID: {c.id} | 内容: {comment_result}")
+            comment_id = c.id
+            comment_user = c.author
+            sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀")
     offset += 40
 
