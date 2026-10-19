@@ -10,7 +10,7 @@ password = os.environ.get("SCRATCH_PASSWORD")
 # 2. 正しくログインしてセッションを作成
 session = sa.login(username, password)
 project_id = "1392785288"
-sec_project_id
+sec_project_id = "1392601120"
 project = session.connect_project(project_id)
 sec_project = session.connect_project(sec_project_id)
 
