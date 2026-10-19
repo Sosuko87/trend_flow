@@ -72,7 +72,7 @@ image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x1
 
 offset = 0
 
-while True:
+while True: #コメント処理
     comments = sec_project.comments(limit=40, offset=offset)
     if not comments:
         break
