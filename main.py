@@ -10,12 +10,13 @@ password = os.environ.get("SCRATCH_PASSWORD")
 # 2. 正しくログインしてセッションを作成
 session = sa.login(username, password)
 project_id = "1392785288"
+sec_project_id
 project = session.connect_project(project_id)
+sec_project = session.connect_project(sec_project_id)
 
 
 def image_change(url):
 
-    # 3. 変更したい画像のURLからデータを取得して、一時ファイルとして保存
     image_url = url
     response = requests.get(image_url)
     image_data = response.content
@@ -69,4 +70,15 @@ def image_change(url):
 
     print(f"画像{url}の更新に成功しました")
 
+def comment_info(comment_id):
+    while True:
+        #コメントを入手
+        comments = sec_project.comments(limit = 40)
+        if not comments:
+            break
+        for comments in comment:
+            comment_result = comment[5:]
+            with open("id.txt", "a", encoding="utf-8") as f:
+                f.write(comment_result)
+                
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
