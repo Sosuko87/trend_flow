@@ -71,7 +71,6 @@ def image_change(url):
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
 
 offset = 0
-
 while True: #コメント処理
     comments = sec_project.comments(limit=40, offset=offset)
     if not comments:
@@ -87,3 +86,4 @@ while True: #コメント処理
         print(comment_result)
         
     offset += 40
+
