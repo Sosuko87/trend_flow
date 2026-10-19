@@ -75,6 +75,7 @@ while True:
     comments = sec_project.comments(limit = 40)
     if not comments:
         break
+    comment = "0"
     for comments in comment:
         comment_result = comment[5:]
         with open("id.txt", "a", encoding="utf-8") as f:
