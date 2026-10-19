@@ -3,11 +3,10 @@ import requests
 import hashlib
 import scratchattach as sa
 
-# 1. GitHub Secrets からログイン情報を取得
 username = os.environ.get("SCRATCH_USERNAME")
 password = os.environ.get("SCRATCH_PASSWORD")
 
-# 2. 正しくログインしてセッションを作成
+
 session = sa.login(username, password)
 project_id = "1392785288"
 sec_project_id = "1392601120"
@@ -81,8 +80,13 @@ while True:
         text = getattr(c, "content", "") or (c.get("content", "") if isinstance(c, dict) else str(c))
         if text.startswith("【仮応募】"):
             comment_result = text[5:]
+            checking = sa.get_project(comment_result)
+            love = checking.loves
+            favorite = checking.favorites
+            views = checking.views
+            date = checking.share_date
             with open("id.txt", "a", encoding="utf-8") as f:
-                f.write(comment_result + "\n")
+                f.write(f"{comment_result}, {love}, {favorite}, {views}, {date}\n")
             comment_id = c.id
             comment_user = c.author().id
             sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀", parent_id=comment_id, commentee_id=comment_user)

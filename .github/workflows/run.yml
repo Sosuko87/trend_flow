@@ -29,3 +29,13 @@ jobs:
           SCRATCH_USERNAME: ${{ secrets.SCRATCH_USERNAME }}
         run: python main.py
         
+      - name: Configure Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@://github.com"
+
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update by Python script" && git push)
