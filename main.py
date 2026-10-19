@@ -14,7 +14,6 @@ sec_project_id = "1392601120"
 project = session.connect_project(project_id)
 sec_project = session.connect_project(sec_project_id)
 
-
 def image_change(url):
 
     image_url = url
@@ -69,18 +68,15 @@ def image_change(url):
     project.set_json(project_json)
 
     print(f"画像{url}の更新に成功しました")
-
-def comment_info():
-    while True:
-        #コメントを入手
-        comments = sec_project.comments(limit = 40)
-        if not comments:
-            break
-        for comments in comment:
-            comment_result = comment[5:]
-            with open("id.txt", "a", encoding="utf-8") as f:
-                f.write(comment_result)
-            print(comment_result)
-                
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
-comment_info()
+
+while True:
+    #コメントを入手
+    comments = sec_project.comments(limit = 40)
+    if not comments:
+        break
+    for comments in comment:
+        comment_result = comment[5:]
+        with open("id.txt", "a", encoding="utf-8") as f:
+            f.write(comment_result)
+        print(comment_result)
