@@ -80,5 +80,6 @@ def comment_info(comment_id):
             comment_result = comment[5:]
             with open("id.txt", "a", encoding="utf-8") as f:
                 f.write(comment_result)
+            print(comment_result)
                 
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
