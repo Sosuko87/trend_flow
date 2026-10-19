@@ -70,7 +70,7 @@ def image_change(url):
 
     print(f"画像{url}の更新に成功しました")
 
-def comment_info(comment_id):
+def comment_info():
     while True:
         #コメントを入手
         comments = sec_project.comments(limit = 40)
@@ -83,3 +83,4 @@ def comment_info(comment_id):
             print(comment_result)
                 
 image_change("https://uploads.scratch.mit.edu/get_image/project/1392601120_144x108.png")
+comment_info()
