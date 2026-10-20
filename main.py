@@ -74,6 +74,7 @@ offset = 0
 while True: 
     comments = sec_project.comments(limit=40, offset=offset)
     if not comments:
+        sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
         break
         
     for c in comments:
@@ -86,15 +87,16 @@ while True:
                 content = f.read()
                 if str(comment_id) in content:
                     end = True
+                    sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
                     break
                 elif str(comment_result) in content:
-                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。\n⚠あなたが送信した仮応募コメントは自動削除されます。再応募する際は新しいコードを再度送信して下さい。", parent_id=comment_id, commentee_id=comment_user)
+                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
                     project.delete_comment(comment_id=comment_id)
                     continue
             try:
                 checking = sa.get_project(comment_result)
             except:
-                sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。\n⚠あなたが送信した仮応募コメントは自動削除されます。再応募する際は新しいコードを再度送信して下さい。", parent_id=comment_id, commentee_id=comment_user)
+                sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。", parent_id=comment_id, commentee_id=comment_user)
                 
                 continue
             love = checking.loves
@@ -105,7 +107,9 @@ while True:
                 f.write(f"{comment_result}, {comment_id}\n")
             sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀", parent_id=comment_id, commentee_id=comment_user)
             time.sleep(0.5)
-    offset += 40
+        elif text.startswith("▼▼▼ここより下のコメントは審査済みです▼▼▼"):
+            end = True
+            break
     if end:
         break
-
+    offset += 40
