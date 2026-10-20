@@ -95,7 +95,7 @@ while True:
                 checking = sa.get_project(comment_result)
             except:
                 sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。\n⚠あなたが送信した仮応募コメントは自動削除されます。再応募する際は新しいコードを再度送信して下さい。", parent_id=comment_id, commentee_id=comment_user)
-                project.delete_comment(comment_id=comment_id)
+                
                 continue
             love = checking.loves
             favorite = checking.favorites
