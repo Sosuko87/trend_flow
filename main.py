@@ -87,7 +87,7 @@ while True:
                 if comment_id in content:
                     end = True
                     break
-                elif comment_result in content:
+                elif str(comment_result) in content:
                     sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
                     continue
             checking = sa.get_project(comment_result)
