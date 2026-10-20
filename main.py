@@ -82,7 +82,7 @@ while True:
             comment_result = text[5:]
             comment_id = c.id
             comment_user = c.author().id
-            with open("id.txt", "r", encoding="utf-8"):
+            with open("id.txt", "r", encoding="utf-8") as f:
                 content = f.read()
                 if comment_id in content:
                     end = True
