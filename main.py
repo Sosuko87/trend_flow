@@ -91,7 +91,6 @@ while True:
                     break
                 elif str(comment_result) in content:
                     sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
-                    project.delete_comment(comment_id=comment_id)
                     continue
             try:
                 checking = sa.get_project(comment_result)
