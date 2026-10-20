@@ -69,7 +69,7 @@ def image_change(url):
     print(f"画像{url}の更新に成功しました")
 
 #コメント処理
-
+end = False
 offset = 0
 while True: 
     comments = sec_project.comments(limit=40, offset=offset)
@@ -80,15 +80,25 @@ while True:
         text = getattr(c, "content", "") or (c.get("content", "") if isinstance(c, dict) else str(c))
         if text.startswith("【仮応募】"):
             comment_result = text[5:]
+            comment_id = c.id
+            comment_user = c.author().id
+            with open("id.txt", "r", encoding="utf-8"):
+                content = f.read()
+                if comment_id in content:
+                    end = True
+                    break
+                elif comment_result in content:
+                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
+                    continue
             checking = sa.get_project(comment_result)
             love = checking.loves
             favorite = checking.favorites
             views = checking.views
             date = checking.share_date
             with open("id.txt", "a", encoding="utf-8") as f:
-                f.write(f"{comment_result}, {love}, {favorite}, {views}, {date}\n")
-            comment_id = c.id
-            comment_user = c.author().id
+                f.write(f"{comment_result}, {comment_id}\n")
             sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀", parent_id=comment_id, commentee_id=comment_user)
     offset += 40
+    if end:
+        break
 
