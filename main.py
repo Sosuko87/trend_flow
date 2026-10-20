@@ -2,7 +2,7 @@ import os
 import requests
 import hashlib
 import scratchattach as sa
-
+import time
 username = os.environ.get("SCRATCH_USERNAME")
 password = os.environ.get("SCRATCH_PASSWORD")
 
@@ -102,6 +102,7 @@ while True:
             with open("id.txt", "a", encoding="utf-8") as f:
                 f.write(f"{comment_result}, {comment_id}\n")
             sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀", parent_id=comment_id, commentee_id=comment_user)
+            time.sleep(0.5)
     offset += 40
     if end:
         break
