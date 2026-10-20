@@ -88,16 +88,20 @@ while True:
                     end = True
                     break
                 elif str(comment_result) in content:
-                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
+                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
                     continue
-            checking = sa.get_project(comment_result)
+            try:
+                checking = sa.get_project(comment_result)
+            except:
+                sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。", parent_id=comment_id, commentee_id=comment_user)
+                continue
             love = checking.loves
             favorite = checking.favorites
             views = checking.views
             date = checking.share_date
             with open("id.txt", "a", encoding="utf-8") as f:
                 f.write(f"{comment_result}, {comment_id}\n")
-            sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/◀", parent_id=comment_id, commentee_id=comment_user)
+            sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀", parent_id=comment_id, commentee_id=comment_user)
     offset += 40
     if end:
         break
