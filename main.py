@@ -84,7 +84,7 @@ while True:
             comment_user = c.author().id
             with open("id.txt", "r", encoding="utf-8") as f:
                 content = f.read()
-                if comment_id in content:
+                if str(comment_id) in content:
                     end = True
                     break
                 elif str(comment_result) in content:
