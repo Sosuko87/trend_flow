@@ -74,7 +74,6 @@ offset = 0
 while True: 
     comments = sec_project.comments(limit=40, offset=offset)
     if not comments:
-        sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
         break
         
     for c in comments:
@@ -87,7 +86,6 @@ while True:
                 content = f.read()
                 if str(comment_id) in content:
                     end = True
-                    sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
                     break
                 elif str(comment_result) in content:
                     sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
@@ -112,3 +110,6 @@ while True:
     if end:
         break
     offset += 40
+
+if sec_project.comments(limit=1, offset=offset)[0] != "▼▼▼ここより下のコメントは審査済みです▼▼▼":
+    sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
