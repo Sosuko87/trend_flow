@@ -88,12 +88,14 @@ while True:
                     end = True
                     break
                 elif str(comment_result) in content:
-                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。", parent_id=comment_id, commentee_id=comment_user)
+                    sec_project.reply_comment(content=f"【問題発生】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀はすでに応募されています。\n⚠あなたが送信した仮応募コメントは自動削除されます。再応募する際は新しいコードを再度送信して下さい。", parent_id=comment_id, commentee_id=comment_user)
+                    project.delete_comment(comment_id=comment_id)
                     continue
             try:
                 checking = sa.get_project(comment_result)
             except:
-                sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。", parent_id=comment_id, commentee_id=comment_user)
+                sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。\n⚠あなたが送信した仮応募コメントは自動削除されます。再応募する際は新しいコードを再度送信して下さい。", parent_id=comment_id, commentee_id=comment_user)
+                project.delete_comment(comment_id=comment_id)
                 continue
             love = checking.loves
             favorite = checking.favorites
