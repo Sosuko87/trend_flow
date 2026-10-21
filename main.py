@@ -3,6 +3,8 @@ import requests
 import hashlib
 import scratchattach as sa
 import time
+from datetime import datetime, timezone
+
 username = os.environ.get("SCRATCH_USERNAME")
 password = os.environ.get("SCRATCH_PASSWORD")
 
@@ -68,6 +70,12 @@ def image_change(url):
 
     print(f"画像{url}の更新に成功しました")
 
+def time_find(time):
+    share_date_utc = datetime.fromisoformat(time.replace("Z", "+00:00"))
+    current_time_utc = datetime.now(timezone.utc)
+    hours_passed = int(time_difference.total_seconds() // 3600)
+    return hours_passed
+
 #コメント処理
 end = False
 offset = 0
@@ -96,10 +104,6 @@ while True:
                 sec_project.reply_comment(content=f"【問題発生】コードが間違っている可能性があります。もう一度お試し下さい。", parent_id=comment_id, commentee_id=comment_user)
                 
                 continue
-            love = checking.loves
-            favorite = checking.favorites
-            views = checking.views
-            date = checking.share_date
             with open("id.txt", "a", encoding="utf-8") as f:
                 f.write(f"{comment_result}, {comment_id}\n")
             sec_project.reply_comment(content=f"【応募完了】▶プロジェクトURL： https://scratch.mit.edu/projects/{comment_result}/ ◀", parent_id=comment_id, commentee_id=comment_user)
@@ -115,3 +119,16 @@ if sec_project.comments(limit=1)[0].content != "▼▼▼ここより下のコ�
     sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
 
 #指数計算
+with open("id.txt", "r", encoding="utf-8") as f:
+    for line in f:
+        p_id, comment_name = line.strip()line.split(",")
+        p = sa.get_project(p_id)
+        l = p.loves
+        f = p.favorites
+        v = p.views
+        h = time_find(p.share_date)
+        r = p.remix_count
+        print(f"{l}, {f}, {v}, {h}, {r}")
+        time.sleep(3)
+
+    
