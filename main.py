@@ -41,7 +41,7 @@ def image_change(url, costume):
     json_url = f"https://projects.scratch.mit.edu/{project_id}?token={project_token}"
     project_json = requests.get(json_url, headers=headers).json()
 
-    target_sprite_name = "Sprite1"
+    target_sprite_name = "サムネ取得"
 
     # 7. コスチューム情報の書き換え（KeyError対策）
     for target in project_json["targets"]:
