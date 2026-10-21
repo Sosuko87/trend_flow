@@ -15,13 +15,13 @@ sec_project_id = "1392601120"
 project = session.connect_project(project_id)
 sec_project = session.connect_project(sec_project_id)
 
-def image_change(url):
+def image_change(url, costume):
 
     image_url = url
     response = requests.get(image_url)
     image_data = response.content
 
-    # 一度 "temp_costume.png" という名前でローカルに保存する
+    # 一度ローカルに保存する
     with open("temp_costume.png", "wb") as f:
         f.write(image_data)
 
@@ -46,7 +46,7 @@ def image_change(url):
     # 7. コスチューム情報の書き換え（KeyError対策）
     for target in project_json["targets"]:
         if target["name"] == target_sprite_name:
-            costume = target["costumes"][0]
+            costume = target["costumes"][costume]
         
             # Scratch 3.0 の標準構造（直下のプロパティ）を更新
             costume["assetId"] = asset_id
@@ -126,14 +126,22 @@ with open("id.txt", "r", encoding="utf-8") as f:
     for line in f:
         p_id, comment_name = line.strip().split(",")
         p = sa.get_project(p_id)
-        l = p.loves
-        f = p.favorites
-        v = p.views
         h = time_find(p.share_date)
-        r = p.remix_count
-        point = (((4 * l + 6 * f) ** 0.9) / (max(24, h) + (v / (l + f + 1)))) * (r ** 0.5 + 1) * 50
-        print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
-        data.append(point)
-        time.sleep(3)
+        if h>720:
+            l = p.loves
+            f = p.favorites
+            v = p.views
+            r = p.remix_count
+            point = (((4 * l + 6 * f) ** 0.9) / (max(24, h) + (v / (l + f + 1)))) * (r ** 0.5 + 1) * 50
+            print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
+            data.append(point)
+            time.sleep(5)
+        else:
+            time.sleep(1)
 data.sort(reverse=True)
-print(data)    
+print(data)
+for i, output in enumerate(data):
+    image_change(f"https://uploads.scratch.mit.edu/get_image/project/{output}_480x360.png", i)
+    if i=11:
+        break
+    time.sleep(3)
