@@ -131,7 +131,7 @@ with open("id.txt", "r", encoding="utf-8") as f:
         v = p.views
         h = time_find(p.share_date)
         r = p.remix_count
-        point = (((4 * l + 6 * f) ** 0.9) / (max(24, x) + (v / (l + f + 1)))) * (3 * r + 1)
+        point = (((4 * l + 6 * f) ** 0.9) / (max(24, h) + (v / (l + f + 1)))) * (3 * r + 1)
         print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
         data.append(point)
         time.sleep(3)
