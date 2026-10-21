@@ -121,7 +121,7 @@ if sec_project.comments(limit=1)[0].content != "▼▼▼ここより下のコ�
 #指数計算
 with open("id.txt", "r", encoding="utf-8") as f:
     for line in f:
-        p_id, comment_name = line.strip()line.split(",")
+        p_id, comment_name = line.strip().line.split(",")
         p = sa.get_project(p_id)
         l = p.loves
         f = p.favorites
