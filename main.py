@@ -140,7 +140,7 @@ with open("id.txt", "r", encoding="utf-8") as f:
             time.sleep(1)
 data.sort(reverse=True)
 print(data)
-for i, output in enumerate(data):
+for i, point, output in enumerate(data):
     image_change(f"https://uploads.scratch.mit.edu/get_image/project/{output}_480x360.png", i)
     if i==11:
         break
