@@ -134,13 +134,13 @@ with open("id.txt", "r", encoding="utf-8") as f:
             r = p.remix_count
             point = (((4 * l + 6 * f) ** 0.9) / (max(24, h) + (v / (l + f + 1)))) * (r ** 0.5 + 1) * 50
             print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
-            data.append((point, id))
+            data.append((point, p_id))
             time.sleep(5)
         else:
             time.sleep(1)
 data.sort(reverse=True)
 print(data)
-for i, point, output in enumerate(data):
+for i, (point, output) in enumerate(data):
     image_change(f"https://uploads.scratch.mit.edu/get_image/project/{output}_480x360.png", i)
     if i==11:
         break
