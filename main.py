@@ -142,6 +142,6 @@ data.sort(reverse=True)
 print(data)
 for i, output in enumerate(data):
     image_change(f"https://uploads.scratch.mit.edu/get_image/project/{output}_480x360.png", i)
-    if i=11:
+    if i==11:
         break
     time.sleep(3)
