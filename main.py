@@ -134,7 +134,7 @@ with open("id.txt", "r", encoding="utf-8") as f:
             r = p.remix_count
             point = (((4 * l + 6 * f) ** 0.9) / (max(24, h) + (v / (l + f + 1)))) * (r ** 0.5 + 1) * 50
             print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
-            data.append(point)
+            data.append((point, id))
             time.sleep(5)
         else:
             time.sleep(1)
