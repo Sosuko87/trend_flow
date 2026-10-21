@@ -73,6 +73,7 @@ def image_change(url):
 def time_find(time):
     share_date_utc = datetime.fromisoformat(time.replace("Z", "+00:00"))
     current_time_utc = datetime.now(timezone.utc)
+    time_difference = current_time_utc - share_date_utc
     hours_passed = int(time_difference.total_seconds() // 3600)
     return hours_passed
 
