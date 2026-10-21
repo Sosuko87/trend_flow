@@ -111,5 +111,8 @@ while True:
         break
     offset += 40
 
-if sec_project.comments(limit=1, offset=offset)[0] != "▼▼▼ここより下のコメントは審査済みです▼▼▼":
+if sec_project.comments(limit=1)[0] != "▼▼▼ここより下のコメントは審査済みです▼▼▼":
     sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
+
+
+#指数計算
