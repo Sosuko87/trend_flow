@@ -119,6 +119,8 @@ while True:
 if sec_project.comments(limit=1)[0].content != "▼▼▼ここより下のコメントは審査済みです▼▼▼":
     sec_project.post_comment("▼▼▼ここより下のコメントは審査済みです▼▼▼")
 
+data = []
+
 #指数計算
 with open("id.txt", "r", encoding="utf-8") as f:
     for line in f:
@@ -129,7 +131,9 @@ with open("id.txt", "r", encoding="utf-8") as f:
         v = p.views
         h = time_find(p.share_date)
         r = p.remix_count
-        print(f"{l}, {f}, {v}, {h}, {r}")
+        point = ((v + 4 * l + 6 * f) ** 0.9) / (max(24, h) * 0.5) * (3 * r + 1)
+        print(f"{l}, {f}, {v}, {h}, {r}, 合計スコア:{point}")
+        data.append(point)
         time.sleep(3)
-
-    
+data.sort(reverse=True)
+print(data)    
