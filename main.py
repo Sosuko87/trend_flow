@@ -127,7 +127,7 @@ with open("id.txt", "r", encoding="utf-8") as f:
         p_id, comment_name = line.strip().split(",")
         p = sa.get_project(p_id)
         h = time_find(p.share_date)
-        if h>720:
+        if h<720:
             l = p.loves
             f = p.favorites
             v = p.views
