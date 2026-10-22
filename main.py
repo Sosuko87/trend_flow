@@ -16,7 +16,7 @@ project = session.connect_project(project_id)
 sec_project = session.connect_project(sec_project_id)
 
 
-# --- JSON内のリストを変更する関数 ---
+
 def update_list(list_name, new_data, target_sprite_name=None):
     """プロジェクトのJSONからリストを取得し、内容を新しいデータに置き換えます。
 
