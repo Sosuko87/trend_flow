@@ -188,7 +188,10 @@ data = []
 with open("id.txt", "r", encoding="utf-8") as f:
     for line in f:
         p_id, comment_name = line.strip().split(",")
-        p = sa.get_project(p_id)
+        try:
+            p = sa.get_project(p_id)
+        except:
+            continue
         h = time_find(p.share_date)
         if h < 720:
             l = p.loves
@@ -205,7 +208,7 @@ with open("id.txt", "r", encoding="utf-8") as f:
             data.append((point, p_id))
             time.sleep(5)
         else:
-            time.sleep(1)
+            time.sleep(3)
 
 data.sort(reverse=True)
 print(data)
